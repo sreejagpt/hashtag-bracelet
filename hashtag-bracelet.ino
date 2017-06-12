@@ -1,10 +1,13 @@
 #include <Adafruit_NeoPixel.h>
+#include <string.h>
 #ifdef __AVR__
   #include <avr/power.h>
 #endif
 #include <ESP8266WiFi.h>
-#include "WifiCredentials.h"
 #define PIN 14
+
+const char* ssid     = "ssid";
+const char* password = "password";
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -16,9 +19,8 @@
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
 
-const char* host = "data.sparkfun.com";
-const char* streamId   = "....................";
-const char* privateKey = "....................";
+const char* host = "hashtag-api.herokuapp.com";
+String currentValue = "0";
 
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
@@ -79,12 +81,7 @@ void loop() {
   }
   
   // We now create a URI for the request
-  String url = "/input/";
-  url += streamId;
-  url += "?private_key=";
-  url += privateKey;
-  url += "&value=";
-  url += value;
+  String url = "/count";
   
   Serial.print("Requesting URL: ");
   Serial.println(url);
@@ -102,15 +99,22 @@ void loop() {
     }
   }
   
-  // Read all the lines of the reply from server and print them to Serial
-  if (client.available()) {
-    rainbowCycle(10);
+  String newValue = "";
+  while(client.available()) {
+    newValue = client.readStringUntil('\r');
+    Serial.print(newValue);
   }
-  
-  while(client.available()){
-    String line = client.readStringUntil('\r');
-    Serial.print(line);
+
+  currentValue.trim();
+  newValue.trim();
+
+  if (currentValue.compareTo(newValue) < 0) {
+    rainbowCycle(2);
+  } else {
+    colorWipe(strip.Color(0, 0, 0), 20);
   }
+
+  currentValue = newValue;
   
   Serial.println();
   Serial.println("closing connection");
