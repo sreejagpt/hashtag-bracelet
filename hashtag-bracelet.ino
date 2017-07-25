@@ -57,14 +57,13 @@ void setup() {
 
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
+  ESP.deepSleep(10e6);
 
 }
 
 int value = 0;
 
 void loop() {
-   //delay for wifi
-   delay(5000);
   //==============wifi start=================
 
   ++value;
@@ -108,8 +107,8 @@ void loop() {
   currentValue.trim();
   newValue.trim();
 
-  if (currentValue.compareTo(newValue) < 0) {
-    rainbowCycle(2);
+  if (currentValue.compareTo(newValue) <= 0) {
+    rainbowCycle(1);
   } else {
     colorWipe(strip.Color(0, 0, 0), 20);
   }
