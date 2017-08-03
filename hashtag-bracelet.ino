@@ -6,9 +6,6 @@
 #include <ESP8266WiFi.h>
 #define PIN 14
 
-const char* ssid     = "ssid";
-const char* password = "password";
-
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
@@ -27,33 +24,27 @@ String currentValue = "0";
 // and minimize distance between Arduino and first pixel.  Avoid connecting
 // on a live circuit...if you must, connect GND first.
 
-void setup() {
-  // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
-  //#if defined (__AVR_ATtiny85__)
-    //if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
-  //#endif
-  // End of trinket special code
+void connectToWifi(char* ssid, char* password) {
+  Serial.println("Connecting ");
+  Wifi.begin(ssid, password);
 
-  // We start by connecting to a WiFi network
-  Serial.begin(115200);
-  delay(10);
-
-  Serial.println();
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  
-  WiFi.begin(ssid, password);
-  
-  while (WiFi.status() != WL_CONNECTED) {
+  while(Wifi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
 
-  Serial.println("");
   Serial.println("WiFi connected");  
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+}
+
+void setup() {
+
+  static const char* ssid     = "ssid";
+  static const char* password = "password";
+
+  Serial.begin(115200);
+  delay(10);
+
+  connectToWifi(ssid, password);
 
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
