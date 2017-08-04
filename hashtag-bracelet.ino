@@ -26,20 +26,7 @@ String currentValue = "0";
 // and minimize distance between Arduino and first pixel.  Avoid connecting
 // on a live circuit...if you must, connect GND first.
 
-void connectToWiFi() {
-  Serial.println("Connecting ");
-  WiFi.begin(ssid, password);
-
-  while(WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-
-  Serial.println("WiFi connected");  
-}
-
 void setup() {
-
 
   Serial.begin(115200);
   delay(10);
@@ -50,6 +37,39 @@ void setup() {
   strip.show(); // Initialize all pixels to 'off'
   ESP.deepSleep(10e6);
 
+}
+
+bool connectToWiFi()
+{
+  if (WiFi.status() != WL_CONNECTED) {
+    // WIFI
+    Serial.println();
+    Serial.print("===> WIFI ---> Connecting to ");
+    Serial.println(ssid);
+    delay(10);
+    WiFi.begin(ssid, password);
+
+    int attempt = 0;
+    while (WiFi.status() != WL_CONNECTED) {
+      Serial.print(".");
+      Serial.print(attempt);
+      delay(100);
+      ESP.wdtFeed();
+      attempt++;
+      if (attempt == 50)
+      {
+        Serial.println();
+        Serial.println("-----> Could not connect to WIFI");
+        ESP.restart();
+        delay(200);
+      }
+
+    }
+    Serial.println();
+    Serial.print("===> WiFi connected");
+    Serial.print(" ------> IP address: ");
+    Serial.println(WiFi.localIP());
+  }
 }
 
 int value = 0;
