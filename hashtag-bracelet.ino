@@ -16,7 +16,9 @@
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
 
-const char* host = "hashtag-api.herokuapp.com";
+static const char* ssid     = "ssid";
+static const char* password = "password";
+static const char* host = "hashtag-api.herokuapp.com";
 String currentValue = "0";
 
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
@@ -24,11 +26,11 @@ String currentValue = "0";
 // and minimize distance between Arduino and first pixel.  Avoid connecting
 // on a live circuit...if you must, connect GND first.
 
-void connectToWifi(char* ssid, char* password) {
+void connectToWiFi() {
   Serial.println("Connecting ");
-  Wifi.begin(ssid, password);
+  WiFi.begin(ssid, password);
 
-  while(Wifi.status() != WL_CONNECTED) {
+  while(WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
@@ -38,13 +40,11 @@ void connectToWifi(char* ssid, char* password) {
 
 void setup() {
 
-  static const char* ssid     = "ssid";
-  static const char* password = "password";
 
   Serial.begin(115200);
   delay(10);
 
-  connectToWifi(ssid, password);
+  connectToWiFi();
 
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
