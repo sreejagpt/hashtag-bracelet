@@ -187,6 +187,14 @@ void rainbowCycle(uint8_t wait) {
     strip.show();
     delay(wait);
   }
+  blackout();
+}
+
+void blackout() {
+  strip.setPixelColor(0, 0, 0, 0);
+  strip.setPixelColor(1, 0, 0, 0);
+  strip.setBrightness(255);
+  strip.show();
 }
 
 uint32_t Wheel(byte WheelPos) {
