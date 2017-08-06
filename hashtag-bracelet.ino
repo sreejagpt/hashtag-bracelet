@@ -25,6 +25,8 @@ static const char* password = "password";
 const char* host = "hashtag-api.herokuapp.com";
 
 byte rtcStore[2];
+
+WiFiClient client;
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
 // and minimize distance between Arduino and first pixel.  Avoid connecting
@@ -40,7 +42,7 @@ void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
 
-  int numberOfMentions = getNumberOfHashTagMentions();
+  int numberOfMentions = getNumberOfHashTagMentions("/count", 80);
   int storedNumberOfMentions = getStoredNumberOfMentions();
 
   compareMentions(numberOfMentions, storedNumberOfMentions);
@@ -58,7 +60,7 @@ void compareMentions(int numberOfMentions, int storedNumberOfMentions) {
   //if number of mentions has increased, light up in rainbow colours
   if (numberOfMentions != storedNumberOfMentions) {
      setStoredNumberOfMentions(numberOfMentions);
-     rainbowCycle(30);
+     rainbowCycle(10);
   } else {
     Serial.println("value is THE SAME!");
   }
@@ -96,15 +98,12 @@ void setStoredNumberOfMentions(int mentions) {
   system_rtc_mem_write(65, rtcStore, 3);
 }
 
-int getNumberOfHashTagMentions() {
-  String url = "/count";
-  const int httpPort = 80;
-  WiFiClient client;
-
+void createRequest(const String url, const int httpPort) {
   if (!client.connect(host, httpPort)) {
     Serial.println("connection failed");
-    return 0;
+    return ;
   }
+  
   client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                "Host: " + host + "\r\n" +
                "Connection: close\r\n\r\n");
@@ -115,13 +114,21 @@ int getNumberOfHashTagMentions() {
     if (millis() - timeout > 5000) {
       Serial.println(">>> Client Timeout !");
       client.stop();
-      return 0;
+      return;
     }
   }
+
+}
+
+int getNumberOfHashTagMentions(const String url, const int httpPort) {
   int numberOfHashTagMentions;
+
+  createRequest(url, httpPort);
+
   while(client.available()) {
     numberOfHashTagMentions = (client.readStringUntil('\r')).toInt();
   }
+
   return numberOfHashTagMentions;
 }
 
