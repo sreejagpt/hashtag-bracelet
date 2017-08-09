@@ -1,6 +1,10 @@
 # About this Workshop
 
-Welcome to *Breaking Stereotypes With Wearable Technology*! To get started with this workshop, please follow the steps in this Readme file.
+Welcome to *Breaking Stereotypes With Wearable Technology*! 
+
+In this workshop, you will be making an ESP8266 Feather Huzzah microcontroller light up when a pre-configured hashtag is mentioned on Twitter.
+
+To get started with this workshop, please follow the steps in this Readme file.
 
 # Setting up you Arduino Development Environment
 
