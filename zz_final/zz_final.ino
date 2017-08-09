@@ -14,18 +14,15 @@ void setup() {
   delay(10);
 
   initializeLightsToOff();
-  connectToWiFi(ssid, password);
-
+  if (connectToWiFi(ssid, password) == true) {
+    flashGreenLight();
+  }
   int newNumberOfMentions = getHashtagMentionsFromServer();
 
   //if number of twitter mentions for the hashtag has increased, start displaying rainbow lights
   if (numberOfMentionsHasIncreased(newNumberOfMentions) == true) {
     //start rainbow LED pattern
-     rainbowCycle();
-  } else {
-    //black out all leds
-    blackout();
-    Serial.println("value is THE SAME!");
+     flashRainbowLights();
   }
 
   //go to sleep to save power

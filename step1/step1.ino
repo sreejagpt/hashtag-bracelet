@@ -1,8 +1,11 @@
 #include "neopixel_helper.h"
 #include "hashtag_helper.h"
 
-static const char* ssid     = "ssid"; //enter WiFi SSID here
-static const char* password = "password"; //enter WiFi password here
+//**************STEP 1*******************************  
+static const char* ssid     = "ssid"; //Step 1: enter WiFi SSID here
+static const char* password = "password"; //Step 1: enter WiFi password here
+//**************STEP 1*******************************  
+
 
 /**
  * The setup method keeps looping over and over and executing the code within
@@ -14,18 +17,8 @@ void setup() {
   delay(10);
 
   initializeLightsToOff();
-  connectToWiFi(ssid, password);
-
-  int newNumberOfMentions = getHashtagMentionsFromServer();
-
-  //if number of twitter mentions for the hashtag has increased, start displaying rainbow lights
-  if (numberOfMentionsHasIncreased(newNumberOfMentions) == true) {
-    //start rainbow LED pattern
-     rainbowCycle();
-  } else {
-    //black out all leds
-    blackout();
-    Serial.println("value is THE SAME!");
+  if (connectToWiFi(ssid, password) == true) {
+    flashGreenLight();
   }
 
   //go to sleep to save power
