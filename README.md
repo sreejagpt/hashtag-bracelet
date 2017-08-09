@@ -8,25 +8,25 @@ To get started with this workshop, please follow the steps in this Readme file.
 
 # Setting up you Arduino Development Environment
 
-Please follow setup instructions provided in the project wiki here
+Please follow setup instructions provided in the project wiki [here](https://github.com/sreejagpt/hashtag-bracelet/wiki/1.-Setup)
 
 # Starting the Workshop
 
-We will be going through the workshop step-by-step along with you. To start by yourself, follow the steps below and keep the project wiki handy.
+We will be going through the workshop step-by-step along with you. To start by yourself, follow the steps below and keep the [project wiki](https://github.com/sreejagpt/hashtag-bracelet/wiki) handy.
 
 ## Step 1
 * Open the **step1** folder
-* Follow the steps provided in the wiki here
+* Follow the steps provided in the wiki [here](https://github.com/sreejagpt/hashtag-bracelet/wiki/2.-Step-1)
 
 
 ## Step 2
 * Open the **step2** folder
-* Follow the steps provided in the wiki here
+* Follow the steps provided in the wiki [here](https://github.com/sreejagpt/hashtag-bracelet/wiki/3.-Step-2)
 
 
 ## Step 3
 * Open the **step3** folder
-* Follow the steps provided in the wiki here
+* Follow the steps provided in the wiki [here](https://github.com/sreejagpt/hashtag-bracelet/wiki/4.-Step-3)
 
 ## Final Step
 * The final code is present in the **zz_final** folder if you wish to compare your work with a working solution
