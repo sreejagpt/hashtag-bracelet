@@ -8,6 +8,8 @@ To get started with this workshop, please follow the steps in this Readme file.
 
 # Setting up you Arduino Development Environment
 
+Please follow setup instructions provided in the project wiki here
+
 # Starting the Workshop
 
 We will be going through the workshop step-by-step along with you. To start by yourself, follow the steps below and keep the project wiki handy.
